@@ -1,4 +1,4 @@
-setup-nginx
+Setup Nginx
 ===========
 
-Setup Nginx Server
+Setup Nginx Server with PHP settings
