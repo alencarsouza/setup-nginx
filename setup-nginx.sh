@@ -68,19 +68,19 @@ cat > /etc/nginx/sites-available/$DOMAIN<<-EOF
 server {
     listen 80;
 
-    set $host_path "${VHOSTS}/${DOMAIN}";
-    access_log    /var/log/nginx/$DOMAIN.access.log main;
+    set \$host_path "${VHOSTS}/${DOMAIN}";
+    access_log    /var/log/nginx/$DOMAIN.access.log;
     error_log    /var/log/nginx/$DOMAIN.error.log;
 
     server_name $HOST $DOMAIN;
-    root $host_path$PARAMN;
-	set $bootstrap "index.php";
+    root \$host_path$PARAMN;
+	set \$bootstrap "index.php";
     
     charset UTF-8;
 
     location / {
         index index.html index.php;
-        try_files $uri $uri/ /$bootstrap?$args;
+        try_files \$uri \$uri/ /\$bootstrap?\$args;
         }
 
     # Deny access to some files/folders
@@ -92,7 +92,7 @@ server {
 
     #avoid processing of calls to unexisting static files
     location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
-        try_files $uri =404;
+        try_files \$uri =404;
         }
 
     # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
@@ -100,18 +100,18 @@ server {
         fastcgi_split_path_info  ^(.+\.php)(.*)$;
 
         #let yii catch the calls to unexising PHP files
-        set $fsn /$bootstrap;
-        if (-f $document_root$fastcgi_script_name){
-            set $fsn $fastcgi_script_name;
+        set \$fsn /\$bootstrap;
+        if (-f \$document_root\$fastcgi_script_name){
+            set \$fsn \$fastcgi_script_name;
             }
 
         fastcgi_pass   127.0.0.1:9000;
         include fastcgi_params;
-        fastcgi_param  SCRIPT_FILENAME  $document_root$fsn;
+        fastcgi_param  SCRIPT_FILENAME  \$document_root\$fsn;
 
         #PATH_INFO and PATH_TRANSLATED can be omitted, but RFC 3875 specifies them for CGI
-        fastcgi_param  PATH_INFO        $fastcgi_path_info;
-        fastcgi_param  PATH_TRANSLATED  $document_root$fsn;
+        fastcgi_param  PATH_INFO        \$fastcgi_path_info;
+        fastcgi_param  PATH_TRANSLATED  \$document_root\$fsn;
         }
 
     # prevent nginx from serving dotfiles (.htaccess, .svn, .git, etc.)
