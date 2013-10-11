@@ -105,7 +105,7 @@ server {
             set \$fsn \$fastcgi_script_name;
             }
 
-        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
         include fastcgi_params;
         fastcgi_param  SCRIPT_FILENAME  \$document_root\$fsn;
 
