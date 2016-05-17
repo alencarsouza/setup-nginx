@@ -51,7 +51,7 @@ DOMAIN="$2"
 
 
 echo -e "\033[1m===> Installing nginx and php5-fpm ... \033[0m\n"
-	apt-get install -y nginx php5-fpm
+	apt-get install -y nginx-full php5-fpm
 echo ""
 
 echo -e "\033[1m> Creating reference to /etc/hosts ...\033[0m\n"
